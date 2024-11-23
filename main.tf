@@ -74,7 +74,7 @@ resource "aws_ecs_service" "ecs_service" {
 resource "aws_iam_role" "ecs_task_execution" {
         name = "ecsTaskExecutionRole"
 
-        assume_role_policy = {
+        assume_role_policy = jsonencode({
                 Version = "2012-10-17"
                 Statement = [
                         {
@@ -85,7 +85,7 @@ resource "aws_iam_role" "ecs_task_execution" {
                                 Action = "sts:AssumeRole"
                         }
                 ]
-        }
+        })
 
         tags = {
                 env     = "dev"
@@ -93,6 +93,7 @@ resource "aws_iam_role" "ecs_task_execution" {
                 project = "smartlib-catalog-terraform"
         }
 }
+
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_attachment" {
         role               = "aws_iam_role.ecs_task_execution"
