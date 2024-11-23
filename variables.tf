@@ -23,13 +23,5 @@ variable "subnet_ids" {
 }
 
 
-variable "execution_role_arn" {
- type        = string
-}
-
-
-variable "subnets" {
-  type        = list(string)
-}
 
 

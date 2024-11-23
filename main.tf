@@ -39,7 +39,7 @@ DEFINITION
         network_mode             = "awsvpc"
         cpu                      = "256"
         memory                   = "512"
-        execution_role_arn       = var.execution_role_arn
+        execution_role_arn       = aws_iam_role.ecs_task_execution.arn
 
         tags = {
                 env     = "dev"
@@ -57,7 +57,7 @@ resource "aws_ecs_service" "ecs_service" {
         launch_type = "FARGATE"
 
         network_configuration {
-                subnets         = var.subnets
+                subnets         = var.subnet_ids
                 assign_public_ip = true
         }
 
