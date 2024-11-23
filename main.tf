@@ -75,15 +75,16 @@ resource "aws_iam_role" "ecs_task_execution" {
         name = "ecsTaskExecutionRole"
 
         assume_role_policy = jsondecode({
-                Version = "2012-10-17"
-                Statement = [{
-                        Effect = "Allow"
-                        Principal = {
-                                Service = "ecs-tasks.amazonaws.com"
+                "Version": "2012-10-17",
+                "Statement": [
+                        {
+                                "Effect": "Allow",
+                                "Principal": {
+                                        "Service": "ecs-tasks.amazonaws.com"
+                                },
+                                "Action": "sts:AssumeRole"
                         }
-                        Action = "sts:AssumeRole"
-                }]
-
+                ]
         })
 
         tags = {
@@ -96,10 +97,4 @@ resource "aws_iam_role" "ecs_task_execution" {
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_attachment" {
         role               = "aws_iam_role.ecs_task_execution"
         policy_arn         = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-
-        tags = {
-                env     = "dev"
-                owner   = "douaech"
-                project = "smartlib-catalog-terraform"
-        }
 }
