@@ -5,10 +5,20 @@ provider "aws" {
 resource "aws_ecr_repository" "app_repo" {
         name                 = var.ecr_repository_name
         image_tag_mutability = "MUTABLE"
+        tags = {
+                env     = "dev"
+                owner   = "douaech"
+                project = "smartlib-catalog-terraform"
+        }
 }
 
 resource "aws_ecs_cluster" "app_cluster" {
         name = var.ecs_cluster_name
+        tags = {
+                env     = "dev"
+                owner   = "douaech"
+                project = "smartlib-catalog-terraform"
+        }
 }
 
 resource "aws_ecs_task_definition" "app_task" {
@@ -22,6 +32,7 @@ resource "aws_ecs_task_definition" "app_task" {
     "cpu": 256,
     "essential": true
   }
+
 ]
 DEFINITION
         requires_compatibilities = ["FARGATE"]
@@ -29,6 +40,13 @@ DEFINITION
         cpu                      = "256"
         memory                   = "512"
         execution_role_arn       = var.execution_role_arn
+
+        tags = {
+                env     = "dev"
+                owner   = "douaech"
+                project = "smartlib-catalog-terraform"
+        }
+
 }
 
 resource "aws_ecs_service" "ecs_service" {
@@ -44,6 +62,12 @@ resource "aws_ecs_service" "ecs_service" {
         }
 
         desired_count   = 1
+
+        tags = {
+                env     = "dev"
+                owner   = "douaech"
+                project = "smartlib-catalog-terraform"
+        }
 
 }
 
@@ -61,9 +85,21 @@ resource "aws_iam_role" "ecs_task_execution" {
                 }]
 
         })
+
+        tags = {
+                env     = "dev"
+                owner   = "douaech"
+                project = "smartlib-catalog-terraform"
+        }
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_attachment" {
         role               = "aws_iam_role.ecs_task_execution"
         policy_arn         = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+
+        tags = {
+                env     = "dev"
+                owner   = "douaech"
+                project = "smartlib-catalog-terraform"
+        }
 }
